@@ -1,5 +1,3 @@
-from flask import Flask
-from flask_jsonrpc import JSONRPC
 from lxml import objectify
 
 from helpers.dbhelpers import DbHelper

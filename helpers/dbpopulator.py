@@ -1,4 +1,3 @@
-import mimetypes
 import os
 
 from binaryornot.check import is_binary
