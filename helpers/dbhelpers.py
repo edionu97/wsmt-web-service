@@ -2,11 +2,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from helpers.Singleton import Singleton
+from helpers.singleton import Singleton
 
 
 class DbHelper(metaclass=Singleton):
-    DATABASE_URI = 'mysql+mysqlconnector://{user}:{password}@{server}/{database}'.format(user='root',
+    DATABASE_URI = 'mysql+pymysql://{user}:{password}@{server}/{database}'.format(user='root',
                                                                                          password='9389',
                                                                                          server='localhost',
                                                                                          database='wsmt')

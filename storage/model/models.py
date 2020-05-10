@@ -1,7 +1,9 @@
-from sqlalchemy import Column, Integer, Date, ForeignKey, LargeBinary, create_engine, String
+import datetime
+
+from sqlalchemy import Column, Integer, ForeignKey, String, DateTime, BLOB, LargeBinary, Binary
 from sqlalchemy.orm import relationship
 
-from helpers.DbHelpers import DbHelper
+from helpers.dbhelpers import DbHelper
 
 """
 pip install sqlalchemy
@@ -18,13 +20,23 @@ class Directory(DbHelper().modelBase):
 
     id = Column('id', Integer, primary_key=True, autoincrement=True)
     name = Column('name', String(50), index=True)
-    creation_date = Column('creationDate', Date)
+    creation_date = Column(DateTime, default=datetime.datetime.utcnow)
 
     parent_directory_id = Column('parent_directory_id', Integer, ForeignKey('directory.id'))
 
     files = relationship('File', back_populates='directory')
     subdirectories = relationship('Directory', back_populates='parent_directory')
-    parent_directory = relationship('Directory', back_populates='subdirectories')
+    parent_directory = relationship('Directory')
+
+    def __init__(self, name: String(50), object_id: Integer = None, parent_directory_id: Integer = None):
+        """
+            Creates the object
+            :param name: the name
+            :param parent_directory_id:  the id of the parent
+        """
+        self.id = object_id
+        self.name = name
+        self.parent_directory_id = parent_directory_id
 
 
 class File(DbHelper().modelBase):
@@ -33,10 +45,26 @@ class File(DbHelper().modelBase):
         The table has two many-to-one relationship (with the directory table)
     """
     __tablename__ = 'file'
+
     id = Column('id', Integer, primary_key=True, autoincrement=True)
-    content = Column('content', LargeBinary)
+    name = Column('name', String(50), nullable=False)
+    binary_content = Column('binary_content', LargeBinary(length=(2**32)-1))
+    text_content = Column('text_content', String(5000))
     directory_id = Column('directory_id', Integer, ForeignKey('directory.id'))
     directory = relationship('Directory', back_populates='files')
 
+    def __init__(self, name, directory_id, binary_content=None, text_content=None):
+        """
+            Creates the object
+            :param name:
+            :param directory_id:
+            :param binary_content:
+            :param text_content:
+        """
 
-DbHelper().create_database(drop=True, echo=True)
+        self.name = name
+        self.binary_content = binary_content
+        self.text_content = text_content
+        self.directory_id = directory_id
+
+
