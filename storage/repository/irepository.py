@@ -26,10 +26,11 @@ class IRepository:
         pass
 
     @abstractmethod
-    def filter(self, predicate, filters):
+    def filter(self, table, filters):
         """
             This method is used to filter the data
-            :param predicate: the filtering predicate
+            :param filters: the filtering predicate
+            :param table: the filtering table
             :return: a list of elements, that respects the given predicate
         """
         pass

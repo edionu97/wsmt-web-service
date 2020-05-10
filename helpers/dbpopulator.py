@@ -31,16 +31,16 @@ class DbPopulator:
 
         # get the name of the directory
         directory_name = file_path.split("\\")[-1]
-        directories = [os.path.join(file_path, directory) for directory in os.listdir(file_path)]
+        directory_paths = [os.path.join(file_path, directory) for directory in os.listdir(file_path)]
 
         # noinspection PyTypeChecker
         self.__repository.add(
-            Directory(name=directory_name, object_id=self.__directory_count, parent_directory_id=parent_id))
+            Directory(name=directory_name, object_id=self.__directory_count, parent_directory_id=parent_id, path=file_path))
 
         # recursively create the directory structure
         parent_id = self.__directory_count
-        for directory in directories:
-            self.get_files(file_path=directory, parent_id=parent_id)
+        for directory_paths in directory_paths:
+            self.get_files(file_path=directory_paths, parent_id=parent_id)
 
     def __process_files(self, path, directory_id):
         """
@@ -53,7 +53,7 @@ class DbPopulator:
         # open the file in reading
         binary = is_binary(path)
         with open(path, mode='rb' if binary else 'r') as opened_file:
-            file = File(directory_id=directory_id, name=path.split("\\")[-1])
+            file = File(directory_id=directory_id, name=path.split("\\")[-1], path=path)
 
             # check if the file is binary
             if binary:

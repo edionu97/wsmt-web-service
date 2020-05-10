@@ -6,11 +6,6 @@ from helpers.singleton import Singleton
 
 
 class DbHelper(metaclass=Singleton):
-    DATABASE_URI = 'mysql+pymysql://{user}:{password}@{server}/{database}'.format(user='root',
-                                                                                         password='9389',
-                                                                                         server='localhost',
-                                                                                         database='wsmt')
-
     @property
     def modelBase(self):
         """
@@ -30,14 +25,15 @@ class DbHelper(metaclass=Singleton):
         self.__modelBase = declarative_base()
         self.__session = None
 
-    def create_database(self, drop=False, echo=False):
+    def create_database(self, constants):
         """
         Creates the database(all the tables + the session maker
         :return: nothing
         """
-        engine = create_engine(self.DATABASE_URI, echo=echo)
 
-        if drop:
+        engine = create_engine(str(constants.connectionstring), echo=bool(constants.showsql))
+
+        if bool(constants.createeverytime):
             self.__modelBase.metadata.drop_all(bind=engine)
 
         self.modelBase.metadata.create_all(bind=engine)

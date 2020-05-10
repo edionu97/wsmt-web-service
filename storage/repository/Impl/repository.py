@@ -4,14 +4,14 @@ from storage.repository.irepository import IRepository
 
 class Repository(IRepository):
 
-    def __init__(self, helper: DbHelper):
+    def __init__(self, helper: DbHelper, constants=None):
         """
             Construct the repository
             :param helper: the db helper (create all the models + session maker)
         """
         super().__init__()
         self.__helper = helper
-        self.__helper.create_database()
+        self.__helper.create_database(constants)
 
     def add(self, value):
         session = self.__helper.session()
