@@ -20,7 +20,7 @@ class Service(IService):
             :return: a list of elements from database that have the name like the :param name
         """
         like_name = "%{name}%".format(name=name)
-        return map(lambda x: x.name, self.__repository.filter(table=File, filters=File.name.like(like_name)))
+        return list(map(lambda x: x.path, self.__repository.filter(table=File, filters=File.name.like(like_name))))
 
     def find_file_by_text(self, text) -> []:
         """
@@ -31,10 +31,10 @@ class Service(IService):
         like_text = "%{text}%".format(text=text)
 
         # noinspection PyComparisonWithNone
-        return map(
-            lambda x: x.name,
+        return list(map(
+            lambda x: x.path,
             self.__repository
-                .filter(table=File, filters=and_(File.binary_content == None, File.text_content.like(like_text))))
+                .filter(table=File, filters=and_(File.binary_content == None, File.text_content.like(like_text)))))
 
     def find_file_by_binary(self, binary) -> []:
         """
@@ -47,11 +47,12 @@ class Service(IService):
 
         # check the bytes
         result = []
+        file: File
         for file in binary_files:
             array = [hex(el).replace("0x", "") for el in file.binary_content]
             if not Methods.is_subset(array, binary):
                 continue
-            result.append(file.name)
+            result.append(file.path)
 
         return result
 
@@ -78,6 +79,6 @@ class Service(IService):
 
         # create the result
         result = []
-        for duplicate in filter(lambda lst: len(lst) > 1,  map(lambda x: x[1], elements.items())):
+        for duplicate in filter(lambda lst: len(lst) > 1, map(lambda x: x[1], elements.items())):
             result.append(duplicate)
         return result

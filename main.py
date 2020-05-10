@@ -16,7 +16,7 @@ try:
         DbPopulator(repository).get_files(file_path=str(constants.populatedbmainfolder))
 
     service = Service(repository)
-    print(service.find_duplicated_files())
+    print(service.find_file_by_binary(binary=['ff', 'd8', 'ff']))
 
 except Exception as e:
-    print(e)
+    print('Error', e)
