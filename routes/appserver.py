@@ -40,7 +40,7 @@ class AppServer:
                             representing the pattern that must be found in the files content
             :return: the list of filtered values
         """
-        return AppServer.service.find_file_by_name(name=kwargs['text'])
+        return AppServer.service.find_file_by_text(text=kwargs['text'])
 
     @staticmethod
     @jsonrpc.method('App.getFilesByBinary')
