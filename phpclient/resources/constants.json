@@ -1,0 +1,18 @@
+{
+  "serverAddress": "http://localhost:8081/api",
+  "apiFilesByName": {
+    "name": "App.getFilesByName",
+    "parameterName": "name"
+  },
+  "apiFilesByText": {
+    "name": "App.getFilesByText",
+    "parameterName": "text"
+  },
+  "apiFilesByBinary": {
+    "name": "App.getFilesByBinary",
+    "parameterName": "binary"
+  },
+  "apiFilesDuplicated": {
+    "name": "App.getDuplicates"
+  }
+}
