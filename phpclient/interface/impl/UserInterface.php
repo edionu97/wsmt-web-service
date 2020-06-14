@@ -29,12 +29,13 @@ class UserInterface implements IUserInterface
     }
 
     private static function showOptions(){
-        echo "\n========================================\n\n";
+        echo "\n\n\n\n\n========================================\n\n";
         echo "     1. For getting the files filtered by name\n";
         echo "     2. For getting the files filtered by content\n";
         echo "     3. For getting the filed filtered by hex bytes\n";
         echo "     4. For getting all the duplicates\n";
-        echo "\n========================================\n\n";
+        echo "     5. For existing the application\n";
+        echo "\n========================================\n";
     }
 
     private function createMenu() {
@@ -53,6 +54,9 @@ class UserInterface implements IUserInterface
             },
             "4" => function() {
                 self::printArrayGroup($this->__service->getDuplicates());
+            },
+            "5" => function() {
+                exit(0);
             }
         );
     }

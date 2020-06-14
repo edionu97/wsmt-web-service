@@ -1,8 +1,3 @@
-import json
-import os
-from os import system
-from time import sleep
-
 from flask_jsonrpc.proxy import ServiceProxy
 
 
@@ -28,11 +23,12 @@ class Interface:
 
     @staticmethod
     def __show_options():
-        print("\n========================================\n")
+        print("\n\n\n\n\n========================================\n")
         print("     1. For getting the files filtered by name")
         print("     2. For getting the files filtered by content")
         print("     3. For getting the filed filtered by hex bytes")
         print("     4. For getting all the duplicates")
+        print("     5. For application exit")
         print("\n========================================")
 
     def __create_menu(self):
@@ -41,6 +37,7 @@ class Interface:
             "2": self.__option_2,
             "3": self.__option_3,
             "4": self.__option_4,
+            "5": lambda: exit(0)
         }
 
     def __option_1(self):
@@ -61,7 +58,7 @@ class Interface:
         for file in result:
             print(file)
 
-    # ff,d8,ff (the withcher 3)
+    # ff,d8,ff (the witcher 3)
     def __option_3(self):
         result = self.__result(self.__service.App.getFilesByBinary(binary=input("Enter binary bytes, and separate by "
                                                                                 "comma: ").split(",")))

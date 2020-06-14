@@ -1,7 +1,7 @@
 from flask_jsonrpc.proxy import ServiceProxy
 from lxml import objectify
 
-from client.ui.interface import Interface
+from ui.interface import Interface
 
 try:
     # open the constants folder to get the host and port necessary for client app to connect
